@@ -34,7 +34,9 @@ namespace stan_briana_labr2.Controllers
             }
 
             var authors = await _context.Authors
-                .FirstOrDefaultAsync(m => m.ID == id);
+                 .Include(a => a.Books)  
+    .ThenInclude(b => b.Genre)  
+    .FirstOrDefaultAsync(a => a.ID == id);
             if (authors == null)
             {
                 return NotFound();
@@ -50,8 +52,7 @@ namespace stan_briana_labr2.Controllers
         }
 
         // POST: Authors/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+      
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("ID,FirstName,LastName")] Authors authors)
@@ -82,8 +83,7 @@ namespace stan_briana_labr2.Controllers
         }
 
         // POST: Authors/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+  
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("ID,FirstName,LastName")] Authors authors)

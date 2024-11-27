@@ -1,4 +1,4 @@
-﻿@model IEnumerable<stan_briana_labr2.Models.Book>
+﻿@model IEnumerable<stan_briana_labr2.Models.BookViewModel>
 
 @{
     ViewData["Title"] = "Index";
@@ -9,17 +9,32 @@
 <p>
     <a asp-action="Create">Create New</a>
 </p>
+
+<form asp-action="Index" method="get">
+    <div class="form-actions no-color">
+        <p>
+            Find by title: <input type="text" name="SearchString" value="@ViewData["CurrentFilter"]" />
+            <input type="submit" value="Search" class="btn btn-default" /> |
+            <a asp-action="Index">Back to Full List</a>
+        </p>
+    </div>
+</form>
+
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Title)
+                <a asp-action="Index" asp-route-sortOrder="@ViewData["TitleSortParm"]">
+                    @Html.DisplayNameFor(model => model.Title)
+                </a>
             </th>
             <th>
                 @Html.DisplayName("Author")
             </th>
             <th>
-                @Html.DisplayName("Price")
+                <a asp-action="Index" asp-route-sortOrder="@ViewData["PriceSortParm"]">
+                    @Html.DisplayNameFor(model => model.Price)
+                </a>
             </th>
             <th>
                 @Html.DisplayName("Genre")
@@ -35,15 +50,13 @@
                     @Html.DisplayFor(modelItem => item.Title)
                 </td>
                 <td>
-                    <!-- Afișăm numele complet al autorului -->
-                    @Html.DisplayFor(modelItem => item.Author.FullName)
+                    @Html.DisplayFor(modelItem => item.FullName) <!-- Numele autorului -->
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Price)
                 </td>
                 <td>
-                    <!-- Afișăm numele genului -->
-                    @Html.DisplayFor(modelItem => item.Genre.Name)
+                    @Html.DisplayFor(modelItem => item.GenreName) <!-- Numele genului -->
                 </td>
                 <td>
                     <a asp-action="Edit" asp-route-id="@item.ID">Edit</a> |
